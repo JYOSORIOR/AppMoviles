@@ -84,7 +84,7 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-select [(ngModel)]="producto.colorSeleccionado">
+              <ion-select [(ngModel)]="producto.colorSeleccionado" required>
                 <ion-select-option *ngFor="let color of coloresDisponibles" [value]="color">{{ color }}</ion-select-option>
               </ion-select>
             </ion-col>
@@ -92,13 +92,13 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <ion-input type="number" [(ngModel)]="producto.cantidad"></ion-input>
+                <ion-input type="number" [(ngModel)]="producto.cantidad" required></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-button expand="full" (click)="agregarAlCarrito()">Agregar al carrito</ion-button>
+              <ion-button expand="full" (click)="agregarAlCarrito()" [disabled]="!producto.colorSeleccionado || !producto.cantidad">Agregar al carrito</ion-button>
             </ion-col>
           </ion-row>
         </ion-col>

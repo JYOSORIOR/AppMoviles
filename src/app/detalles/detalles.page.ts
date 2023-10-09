@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MongodbService } from '../services/mongodb.service';
 import { DataSharingService } from '../services/data-sharing.service';
+import { CarritoService } from 'src/app/carrito.service';
 
 @Component({
   selector: 'app-detalles',
@@ -17,7 +18,8 @@ export class DetallesPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private mongodb: MongodbService,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    private carritoService: CarritoService
   ) {}
 
   ngOnInit() {
@@ -72,6 +74,7 @@ export class DetallesPage implements OnInit {
 
   
     localStorage.setItem('carrito', JSON.stringify(this.carrito));
+    this.carritoService.actualizarCarrito(this.carrito);
     console.log('Datos productoAgregado', productoAgregado);
     console.log('Datos carrito ', this.carrito);
     alert('Producto agregado al carrito');

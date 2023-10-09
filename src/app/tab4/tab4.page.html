@@ -49,19 +49,19 @@
   </ion-item>
   <ion-item>
     <ion-label>Nombre completo:</ion-label>
-    <ion-input [(ngModel)]="nombreCompleto"></ion-input>
+    <ion-input [(ngModel)]="nombreCompleto" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>Dirección:</ion-label>
-    <ion-input [(ngModel)]="direccion"></ion-input>
+    <ion-input [(ngModel)]="direccion" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>Apto/Casa:</ion-label>
-    <ion-input [(ngModel)]="aptoCasa"></ion-input>
+    <ion-input [(ngModel)]="aptoCasa" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>Método de Pago:</ion-label>
-    <ion-select [(ngModel)]="metodoPago">
+    <ion-select [(ngModel)]="metodoPago" required>
       <ion-select-option value="pse">PSE</ion-select-option>
       <ion-select-option value="efectivo">Efectivo</ion-select-option>
     </ion-select>
@@ -71,9 +71,10 @@
     <ion-label>
       <h2>Total:</h2>
     </ion-label>
+    
     <ion-label>{{ total }}</ion-label>
   </ion-item>
 
-  <ion-button expand="full" (click)="confirmarCompra()">Confirmar Compra</ion-button>
-  <ion-button expand="full" (click)="generarPDF()">Generar PDF de Compra</ion-button>
+  <ion-button expand="full" (click)="confirmarCompra()" [disabled]="!nombreCompleto || !direccion || !aptoCasa || !metodoPago || productos.length === 0">Confirmar Compra</ion-button>
+  
 </ion-content>

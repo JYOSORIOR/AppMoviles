@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { AlertController } from '@ionic/angular';
+import { CarritoService } from 'src/app/carrito.service';
 
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 
 
@@ -19,10 +22,8 @@ export class Tab4Page implements OnInit {
   metodoPago: string = '';
   total: number = 0;
 
-  constructor() {
+  constructor(private alertController: AlertController, private carritoService: CarritoService) {}
 
-    
-  }
 
   ngOnInit() {
     const carritoLocalStorage = localStorage.getItem('carrito');
@@ -41,24 +42,44 @@ export class Tab4Page implements OnInit {
       this.aptoCasa = datos.aptoCasa;
       this.metodoPago = datos.metodoPago;
     }
+    
+    this.carritoService.carritoObservable.subscribe(() => {
+      this.actualizarCarrito();
+      this.calcularTotal();
+    });
+    
+    
+  }
+  private actualizarCarrito() {
+    const carritoLocalStorage = localStorage.getItem('carrito');
+    if (carritoLocalStorage) {
+      this.productos = JSON.parse(carritoLocalStorage);
+    } else {
+      this.productos = [];
+    }
     this.calcularTotal();
   }
-
   calcularTotal() {
     this.total = this.productos.reduce((subtotal, producto) => subtotal + (producto.precio * producto.cantidad), 0);
   }
 
   eliminarProducto(index: number) {
-    this.productos.splice(index, 1);
-    localStorage.setItem('carrito', JSON.stringify(this.productos));
+    const productoEliminado = this.productos.splice(index, 1)[0]; 
+    localStorage.setItem('carrito', JSON.stringify(this.productos)); 
     console.log('Producto eliminado del carrito.');
+  
+    
+    this.total -= productoEliminado.precio * productoEliminado.cantidad;
+    this.total = Math.max(0, this.total);
+    this.calcularTotal();
   }
+  
 
   calcularSubtotal(producto: any) {
     return producto.precio * producto.cantidad;
   }
 
-  confirmarCompra() {
+  async confirmarCompra() {
     const datosCompra = {
       productos: this.productos,
       nombreCompleto: this.nombreCompleto,
@@ -69,7 +90,43 @@ export class Tab4Page implements OnInit {
   
     localStorage.setItem('datosCompra', JSON.stringify(datosCompra));
     console.log("datos de compra pr", datosCompra)
+    const alert = await this.alertController.create({
+      header: 'Generar Factura',
+      message: '¿Desea generar una factura para esta compra?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            this.mostrarAgradecimiento();
+            this.borrarTodo();
+          }
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.generarPDF();
+            this.borrarTodo();
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
   }
+  
+  async mostrarAgradecimiento() {
+    const alert = await this.alertController.create({
+      header: 'Gracias por su compra',
+      message: 'Su compra ha sido confirmada. Gracias por elegir a Sorella.',
+      buttons: ['OK']
+      
+    });
+  
+    await alert.present();
+  }
+
+
 
   borrarTodo() {
     localStorage.removeItem('carrito');
@@ -78,7 +135,6 @@ export class Tab4Page implements OnInit {
   }
 
   generarPDF() {
-
     const pdfFonts = {
       Roboto: {
         normal: 'assets/fonts/Roboto-Regular.ttf',
@@ -87,28 +143,43 @@ export class Tab4Page implements OnInit {
         bolditalics: 'assets/fonts/Roboto-BoldItalic.ttf'
       }
     };
-    
+  
+    const styles = {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 10, 0, 10] // márgenes [arriba, izquierda, abajo, derecha]
+      },
+      subheader: {
+        fontSize: 14,
+        bold: true,
+        margin: [0, 5, 0, 10] // márgenes [arriba, izquierda, abajo, derecha]
+      },
+      content: {
+        fontSize: 12,
+        margin: [0, 0, 0, 5] // márgenes [arriba, izquierda, abajo, derecha]
+      }
+    };
+  
     const pdfDefinition = {
       content: [
         { text: 'Resumen de Compra', style: 'header' },
-        { text: `Nombre Completo: ${this.nombreCompleto}` },
-        { text: `Dirección: ${this.direccion}` },
-        { text: `Apto/Casa: ${this.aptoCasa}` },
-        { text: `Método de Pago: ${this.metodoPago}` },
+        { text: `Nombre Completo: ${this.nombreCompleto}`, style: 'content' },
+        { text: `Dirección: ${this.direccion}`, style: 'content' },
+        { text: `Apto/Casa: ${this.aptoCasa}`, style: 'content' },
+        { text: `Método de Pago: ${this.metodoPago}`, style: 'content' },
         { text: 'Productos Comprados:', style: 'subheader' },
         this.productos.map((producto) => ({
           text: `${producto.nombre}, Cantidad: ${producto.cantidad}, Subtotal: ${producto.precio * producto.cantidad}`,
+          style: 'content'
         })),
-        { text: `Total: ${this.total}` },
-      ],
-      font: pdfFonts.Roboto,
-    };
-    
-    
-    
-     
-    pdfMake.createPdf(pdfDefinition).download('resumen-compra.pdf');
+        { text: `Total: ${this.total}`, style: 'content' },
+      ]
       
-    
+    };
+  
+    pdfMake.createPdf(pdfDefinition).download('resumen-compra.pdf');
   }
+  
+  
 }
