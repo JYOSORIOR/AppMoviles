@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-title>Categorías</ion-title>
+
+    <ion-buttons slot="start">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/tabs/inicio"></ion-back-button>
+        </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar mode="ios">
+      <ion-title size="large">Categorías</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-searchbar
+    placeholder="Buscar"
+    animated
+    [(ngModel)]="myInput"
+    (ionInput)="onInput($event)"
+    (ionCancel)="onCancel($event)"
+  ></ion-searchbar>
+  
+  
+
+  
+    <ion-item *ngFor="let categoria of misCategorias " (click)="mostrarProductos(categoria.nombre)">
+      <ion-thumbnail item-start>
+        <img src="{{categoria.imagenCategoria}}"/>
+      </ion-thumbnail>
+      <ion-label>{{ categoria.nombre }}</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

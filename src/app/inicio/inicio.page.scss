@@ -1,0 +1,27 @@
+ion-title img {
+    width: 50px;
+    height: auto;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+ion-text h1{
+    font-size: 14px ;
+    font-weight: bold ;
+    text-align: right;
+}
+  
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .imagen-slides {
+    width: 400px; 
+    height: 300px; 
+    object-fit: cover;
+    justify-content: center;
+    border-radius: 40px; 
+  }

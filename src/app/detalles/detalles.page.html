@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-back-button defaultHref="inicio"></ion-back-button>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Detalles
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="producto">
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-col>
+              <ion-item-divider color="light"></ion-item-divider>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-text-center ion-justify-content-center ion-align-items-center">
+              <h2>{{ producto.nombre }}</h2>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-text-center ion-justify-content-center ion-align-items-center">
+              <img src="{{producto.imagen}}" style="height: 100px; width: 100px; border-radius: 50%;" [alt]="producto.nombre" />
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item-divider color="light"></ion-item-divider>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <p>Descripción</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <p>{{ producto.descripcion }}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item-divider color="light"></ion-item-divider>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <p>{{ producto.miniDescripcion }}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-row>
+                <ion-col>Largo:</ion-col>
+                <ion-col>10 cm</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>Kilates:</ion-col>
+                <ion-col>24</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>Peso:</ion-col>
+                <ion-col>5 g</ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item-divider color="light"></ion-item-divider>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <h3>Escoge tu preferencia</h3>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-select [(ngModel)]="producto.colorSeleccionado">
+                <ion-select-option *ngFor="let color of coloresDisponibles" [value]="color">{{ color }}</ion-select-option>
+              </ion-select>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-input type="number" [(ngModel)]="producto.cantidad"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="full" (click)="agregarAlCarrito()">Agregar al carrito</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

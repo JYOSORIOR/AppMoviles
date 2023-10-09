@@ -1,0 +1,84 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+  
+      <ion-item class="ion-text-start" routerLink="/tabs/inicio">
+        <ion-icon slot="start" name="home"></ion-icon> Inicio
+      </ion-item>
+  
+      <ion-item class="ion-text-start" routerLink="/tabs/categorias">
+        <ion-icon slot="start" name="apps"></ion-icon> Categorias
+      </ion-item>
+  
+      <ion-item class="ion-text-start" routerLink="/tabs/tab4">
+        <ion-icon slot="start" name="cart-outline"></ion-icon> Carrito
+      </ion-item>
+  
+      <ion-item class="ion-text-start" routerLink="/tabs/compras">
+        <ion-icon slot="start" name="checkbox-outline"></ion-icon> Compras
+      </ion-item>
+  
+      <ion-item class="ion-text-start" routerLink="/tabs/buscar">
+        <ion-icon slot="start" name="search-outline"></ion-icon> Buscar
+      </ion-item>
+  
+    </ion-list>
+  </ion-content>  
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+
+      <ion-title slot="end">
+        <img src="assets/image.png" style="border-radius: 50%;" />
+      </ion-title>
+
+
+      <ion-buttons slot="end">
+        <ion-button>
+          <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <img src="assets/banner.png" style="border-radius: 10%;"/>
+    <ion-text class="custom-text">
+      <h1>Lo mejor de la semana</h1>
+    </ion-text>
+
+
+    <swiper-container autoplay="200">
+      <swiper-slide *ngFor="let producto of misProductos">
+        <img class="imagen-slides" [src]="producto.imagen">
+      </swiper-slide>
+    </swiper-container>
+
+    <ion-text class="custom-text">
+      <h1>Más Vendidos</h1>
+    </ion-text>
+
+    <ion-grid class="ion-text-center">
+      <ion-row *ngFor="let producto of misProductos.slice(0, 3)">
+        <ion-col size="3" class="ion-text-center" style="align-items: flex-start; justify-content: flex-start;">
+          <img src="{{producto.imagen}}" style="height: 50px; width: 50px;border-radius: 50%;" [alt]="producto.nombre" />
+        </ion-col>
+        <ion-col size="5" class="center">{{ producto.nombre }}</ion-col>
+        <ion-col size="4" class="center">${{ producto.precio }}</ion-col>
+      </ion-row>
+    </ion-grid>
+  
+  </ion-content> 
+</div>
+
