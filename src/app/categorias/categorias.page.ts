@@ -58,6 +58,6 @@ export class CategoriasPage implements OnInit {
   }
 
   mostrarProductos(categoria: string) {
-    this.router.navigate(['/tabs/filtro'], { queryParams: { categoria: categoria } });
+    this.router.navigate(['/filtro'], { queryParams: { categoria: categoria } });
   }
 }

@@ -72,7 +72,7 @@ export class FiltroPage implements OnInit {
 
    obtenerDetalles(itemId: string) {
     this.dataSharingService.setProductId(itemId);
-    this.router.navigate(['/tabs/detalles'], { queryParams: { producto: itemId } });
+    this.router.navigate(['/detalles'], { queryParams: { producto: itemId } });
   }
   
 }

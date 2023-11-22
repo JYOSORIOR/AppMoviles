@@ -7,25 +7,18 @@
   <ion-content class="ion-padding">
     <ion-list>
   
-      <ion-item class="ion-text-start" routerLink="/tabs/inicio">
+      <ion-item class="ion-text-start" routerLink="/inicio">
         <ion-icon slot="start" name="home"></ion-icon> Inicio
       </ion-item>
   
-      <ion-item class="ion-text-start" routerLink="/tabs/categorias">
+      <ion-item class="ion-text-start" routerLink="/categorias">
         <ion-icon slot="start" name="apps"></ion-icon> Categorias
       </ion-item>
   
-      <ion-item class="ion-text-start" routerLink="/tabs/tab4">
+      <ion-item class="ion-text-start" routerLink="/tab4">
         <ion-icon slot="start" name="cart-outline"></ion-icon> Carrito
       </ion-item>
-  
-      <ion-item class="ion-text-start" routerLink="/tabs/compras">
-        <ion-icon slot="start" name="checkbox-outline"></ion-icon> Compras
-      </ion-item>
-  
-      <ion-item class="ion-text-start" routerLink="/tabs/buscar">
-        <ion-icon slot="start" name="search-outline"></ion-icon> Buscar
-      </ion-item>
+
   
     </ion-list>
   </ion-content>  
@@ -78,6 +71,15 @@
         <ion-col size="4" class="center">${{ producto.precio }}</ion-col>
       </ion-row>
     </ion-grid>
+
+  
+    
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="scanBarcode()">
+        <ion-icon name="scan"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    
   
   </ion-content> 
 </div>

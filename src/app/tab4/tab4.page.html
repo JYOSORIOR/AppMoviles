@@ -54,6 +54,7 @@
   <ion-item>
     <ion-label>Dirección:</ion-label>
     <ion-input [(ngModel)]="direccion" required></ion-input>
+    <ion-button (click)="obtenerUbicacion()">Ubicación</ion-button>
   </ion-item>
   <ion-item>
     <ion-label>Apto/Casa:</ion-label>
@@ -75,6 +76,15 @@
     <ion-label>{{ total }}</ion-label>
   </ion-item>
 
-  <ion-button expand="full" (click)="confirmarCompra()" [disabled]="!nombreCompleto || !direccion || !aptoCasa || !metodoPago || productos.length === 0">Confirmar Compra</ion-button>
   
+  <ion-button expand="full" (click)="confirmarCompra()" [disabled]="!nombreCompleto || !direccion || !aptoCasa || !metodoPago || productos.length === 0">Confirmar Compra</ion-button> 
+    
+  <!-- <div class="map-container">
+    <div #map id="map"></div>
+    <ion-item>
+      <ion-label>Ubicación:</ion-label>
+      <ion-input [(ngModel)]="ubicacion" disabled></ion-input>
+    </ion-item>
+  </div> -->
+   
 </ion-content>
